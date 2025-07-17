@@ -3,13 +3,15 @@ from tkinter import ttk
 
 # Simple Calculator app (tkinter practice)
 # Author: Abby Horner
-# Last Edited: 16. July 2025
+# Last Edited: 17. July 2025
 # 
-# TODO: add some error checking
-# TODO: the loop is a bit weird and you can't continue to manipulate numbers after you hit the first enter, it will start over. Ideally, you should be able to start adding to the val again
+# TODO: add some (better) error checking
 #
 
 val = ""
+history = []
+i = 0
+symbols = ["+","-","*","/"]
 
 def calc():
     # Required
@@ -34,15 +36,25 @@ def calc():
     ## Number buttons
     def pressButton(key):
         global val 
+        global history 
+        global i
+
+        if val == "" and key in symbols:
+            val += history[i - 1]
         val += str(key)
         display.set(val)
 
     def enter():
         global val 
+        global history 
+        global i 
+
         try: 
             result = str(eval(val))
             display.set(result)
             val = ""
+            history.append(result)
+            i += 1
         except:
             display.set("ERROR")
             val=""
